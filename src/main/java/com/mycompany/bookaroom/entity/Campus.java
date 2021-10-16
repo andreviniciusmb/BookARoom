@@ -22,6 +22,11 @@ public class Campus {
     private ArrayList<Sala> salas;
     private ArrayList<Funcionario> funcionarios;
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    public Campus(){
+        
+    }
+    
     public Campus(String nome, String rua, String numero, String bairro, String cidade, String estado) {
         this.nome = nome;
         this.rua = rua;
@@ -29,11 +34,12 @@ public class Campus {
         this.bairro = bairro;
         this.cidade = cidade;
         this.estado = estado;
-        this.reservas = new ArrayList<Reserva>();
-        this.salas = new ArrayList<Sala>();
-        this.funcionarios = new ArrayList<Funcionario>();
+        this.reservas = new ArrayList<>();
+        this.salas = new ArrayList<>();
+        funcionarios = new ArrayList<>();
     }
-
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public String getNome() {
         return nome;
@@ -94,6 +100,14 @@ public class Campus {
     public void setSalas(ArrayList<Sala> salas) {
         this.salas = salas;
     }
+
+    public ArrayList<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
+    }
     
     //</editor-fold>
     
@@ -103,6 +117,10 @@ public class Campus {
     
     public void adicionarSala(Sala sala){
         salas.add(sala);
+    }
+    
+    public void adicionarFuncionario(Funcionario funcionario){
+        funcionarios.add(funcionario);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class Predio {
 
     @Override
     public String toString() {
-        return "Predio:" + nome + ", " + campus;
+        return "Predio: " + nome;
     }
     
     

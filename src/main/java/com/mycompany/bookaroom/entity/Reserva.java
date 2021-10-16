@@ -94,7 +94,7 @@ public class Reserva{
     }
 
     public void criarReserva(LocalDate dataAlocacao, LocalTime horaInicio, LocalTime horaFim, 
-            String assunto, Sala sala, Campus campus){
+            String assunto, Sala sala){
         this.dataAlocacao = dataAlocacao;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
@@ -103,7 +103,7 @@ public class Reserva{
     }
     
     public void criarReserva(LocalDate dataAlocacao, LocalTime horaInicio, LocalTime horaFim, 
-            String assunto, Equipamento equipamento, Sala sala, Campus campus){
+            String assunto, Equipamento equipamento, Sala sala){
         this.dataAlocacao = dataAlocacao;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;

@@ -80,8 +80,8 @@ public class Funcionario {
     
     @Override
     public String toString() {
-        return "Funcionario: " + nome + ", " + cargo + ", " + ramal
-                + ", " + campus;
+        return nome + ", " + cargo
+                + ", " + campus.getNome();
     }
     
 }

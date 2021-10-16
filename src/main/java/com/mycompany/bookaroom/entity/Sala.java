@@ -56,7 +56,7 @@ public class Sala{
     @Override
     public String toString() {
         return "Sala: " + numero + ", " + qtdLugares 
-                + " lugares, " + predio;
+                + ", " + predio;
     }
     
     
