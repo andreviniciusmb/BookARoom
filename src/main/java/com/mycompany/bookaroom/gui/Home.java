@@ -10,9 +10,15 @@ import com.mycompany.bookaroom.entity.Funcionario;
 import com.mycompany.bookaroom.entity.Sala;
 import com.mycompany.bookaroom.entity.Predio;
 import com.mycompany.bookaroom.entity.Equipamento;
+import com.mycompany.bookaroom.entity.Disponibilidade;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.DefaultListModel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,6 +30,11 @@ public class Home extends javax.swing.JFrame {
     
     private static ArrayList<Sala> lstSalas;
 
+    private static ArrayList<Equipamento> lstEquipamentos;    
+    
+    private static ArrayList<Disponibilidade> lstDisponibilidades;
+    
+    private DefaultTableModel tabelaModelo = new DefaultTableModel();
     /**
      * Creates new form TelaLogin
      */
@@ -38,6 +49,25 @@ public class Home extends javax.swing.JFrame {
         lstSalas.forEach(sala -> {
             cbxSala.addItem(sala);
         });
+        
+        lstEquipamentos.forEach(equipamento -> {
+            cbxEquipamento.addItem(equipamento);
+        });
+
+        tabelaModelo.addColumn("Data");
+        tabelaModelo.addColumn("Sala");
+        tabelaModelo.addColumn("Predio");
+        tabelaModelo.addColumn("Campus");
+        tabelaModelo.addColumn("HorarioInicio");
+        tabelaModelo.addColumn("HorarioFim");
+        //tabelaModelo.
+        
+        tblHorarios.setModel(tabelaModelo);
+        DefaultTableModel model = (DefaultTableModel) tblHorarios.getModel();
+        String data = cldCalendario.getDate().toString();
+        model.addRow(new Object[]{data, "Column 2", "Column 3","Column 4","Column 5","Column 6"});
+        
+        tblHorarios.setModel(model);
     }
 
     /**
@@ -52,34 +82,36 @@ public class Home extends javax.swing.JFrame {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         mnuEditar = new javax.swing.JMenuItem();
         mnuExcluir = new javax.swing.JMenuItem();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         pnlHome = new javax.swing.JPanel();
         lblHome = new javax.swing.JLabel();
         lblCalendar = new javax.swing.JLabel();
-        scrReservas = new javax.swing.JScrollPane();
-        lstReservas = new javax.swing.JList<>();
         cbxHoraInicio = new javax.swing.JComboBox<>();
         lblHoraInicio = new javax.swing.JLabel();
         lblHoraFim = new javax.swing.JLabel();
         cbxHoraFim = new javax.swing.JComboBox<>();
         lblReservas = new javax.swing.JLabel();
-        cldCalendario = new com.toedter.calendar.JCalendar();
         btnReservar = new javax.swing.JButton();
-        lblFuncionario = new javax.swing.JLabel();
         cbxFuncionario = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         chbEquipamento = new javax.swing.JCheckBox();
-        txtEquipamento = new javax.swing.JTextField();
         btnListarReservas = new javax.swing.JButton();
-        lblAssunto = new javax.swing.JLabel();
         txtAssunto = new javax.swing.JTextField();
-        lblSala = new javax.swing.JLabel();
         cbxSala = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        chbHorarios = new javax.swing.JCheckBox();
-        lblHoraInicioHorarios = new javax.swing.JLabel();
-        cbxHoraInicioHorarios = new javax.swing.JComboBox<>();
-        lblHoraFimHorarios = new javax.swing.JLabel();
-        cbxHoraFimHorarios = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblHorarios = new javax.swing.JTable();
+        cldCalendario = new com.toedter.calendar.JDateChooser();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        lblHorarios = new javax.swing.JLabel();
+        lblCampus = new javax.swing.JLabel();
+        lblEquipamento = new javax.swing.JLabel();
+        lblSala = new javax.swing.JLabel();
+        lblFuncionario = new javax.swing.JLabel();
+        lblAssunto = new javax.swing.JLabel();
+        rdbMoc = new javax.swing.JRadioButton();
+        rdbJanuaria = new javax.swing.JRadioButton();
+        cbxEquipamento = new javax.swing.JComboBox<>();
 
         mnuEditar.setMnemonic('e');
         mnuEditar.setText("Editar");
@@ -89,26 +121,32 @@ public class Home extends javax.swing.JFrame {
         mnuExcluir.setText("Excluir");
         jPopupMenu1.add(mnuExcluir);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home");
-        setPreferredSize(new java.awt.Dimension(950, 550));
-        setResizable(false);
+        setSize(new java.awt.Dimension(1200, 800));
 
         lblHome.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblHome.setText("Home");
 
-        lblCalendar.setText("Calendário");
-
-        lstReservas.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1 - Ocupado", "Item 2 - Livre", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        scrReservas.setViewportView(lstReservas);
+        lblCalendar.setText("Cadastro de Reserva");
 
         cbxHoraInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "06:00", "07:00", "08:00", "09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", "16:00", "17:00","18:00", "19:00", "20:00", "21:00"}));
         cbxHoraInicio.setSelectedIndex(0);
         cbxHoraInicio.setToolTipText("");
+        cbxHoraInicio.setEnabled(false);
         cbxHoraInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxHoraInicioActionPerformed(evt);
@@ -120,6 +158,7 @@ public class Home extends javax.swing.JFrame {
         lblHoraFim.setText("Fim");
 
         cbxHoraFim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "07:00", "08:00", "09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", "16:00", "17:00","18:00", "19:00", "20:00", "21:00", "22:00"}));
+        cbxHoraFim.setEnabled(false);
         cbxHoraFim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxHoraFimActionPerformed(evt);
@@ -135,8 +174,6 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        lblFuncionario.setText("Funcionário:");
-
         cbxFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>());
         cbxFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,17 +181,9 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Equipamento");
-
         chbEquipamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chbEquipamentoActionPerformed(evt);
-            }
-        });
-
-        txtEquipamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEquipamentoActionPerformed(evt);
             }
         });
 
@@ -165,15 +194,11 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        lblAssunto.setText("Assunto");
-
         txtAssunto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAssuntoActionPerformed(evt);
             }
         });
-
-        lblSala.setText("Sala");
 
         cbxSala.setModel(new javax.swing.DefaultComboBoxModel<>());
         cbxSala.addActionListener(new java.awt.event.ActionListener() {
@@ -182,35 +207,67 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel2.setText("Selecione os horários que deseja ver a lista de salas:");
-        jLabel2.setToolTipText("");
+        tblHorarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        chbHorarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chbHorariosActionPerformed(evt);
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tblHorarios);
+
+        cldCalendario.setDate(new Date());
+        cldCalendario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cldCalendarioMouseClicked(evt);
             }
         });
 
-        lblHoraInicioHorarios.setText("Inicio");
-
-        cbxHoraInicioHorarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "06:00", "07:00", "08:00", "09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", "16:00", "17:00","18:00", "19:00", "20:00", "21:00"}));
-        cbxHoraInicioHorarios.setSelectedIndex(0);
-        cbxHoraInicioHorarios.setToolTipText("");
-        cbxHoraInicioHorarios.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxHoraInicioHorariosActionPerformed(evt);
+                jCheckBox1ActionPerformed(evt);
             }
         });
 
-        lblHoraFimHorarios.setText("Fim");
+        lblHorarios.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblHorarios.setText("Horários");
+        lblHorarios.setToolTipText("");
 
-        cbxHoraFimHorarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "07:00", "08:00", "09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", "16:00", "17:00","18:00", "19:00", "20:00", "22:00"}));
-        cbxHoraFimHorarios.addActionListener(new java.awt.event.ActionListener() {
+        lblCampus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblCampus.setText("Campus");
+        lblCampus.setToolTipText("");
+
+        lblEquipamento.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblEquipamento.setText("Equipamento");
+        lblEquipamento.setToolTipText("");
+
+        lblSala.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblSala.setText("Sala");
+        lblSala.setToolTipText("");
+
+        lblFuncionario.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblFuncionario.setText("Funcionário");
+        lblFuncionario.setToolTipText("");
+
+        lblAssunto.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblAssunto.setText("Assunto");
+        lblAssunto.setToolTipText("");
+
+        buttonGroup1.add(rdbMoc);
+        rdbMoc.setSelected(true);
+        rdbMoc.setText("Moc");
+        rdbMoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxHoraFimHorariosActionPerformed(evt);
+                rdbMocActionPerformed(evt);
             }
         });
+
+        buttonGroup1.add(rdbJanuaria);
+        rdbJanuaria.setText("Januária");
+
+        cbxEquipamento.setModel(new javax.swing.DefaultComboBoxModel<>());
+        cbxEquipamento.setEnabled(false);
 
         javax.swing.GroupLayout pnlHomeLayout = new javax.swing.GroupLayout(pnlHome);
         pnlHome.setLayout(pnlHomeLayout);
@@ -221,208 +278,158 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(lblHome)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(pnlHomeLayout.createSequentialGroup()
-                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlHomeLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scrReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlHomeLayout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addComponent(lblReservas))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlHomeLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlHomeLayout.createSequentialGroup()
-                        .addComponent(chbHorarios)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblHoraInicioHorarios)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbxHoraInicioHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(lblHoraFimHorarios)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbxHoraFimHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(128, 128, 128)
+                .addComponent(lblReservas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblCalendar)
+                .addGap(221, 221, 221))
+            .addGroup(pnlHomeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlHomeLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lblCalendar)
-                                .addGap(227, 227, 227))
-                            .addGroup(pnlHomeLayout.createSequentialGroup()
-                                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlHomeLayout.createSequentialGroup()
-                                        .addComponent(chbEquipamento)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(pnlHomeLayout.createSequentialGroup()
-                                        .addComponent(lblHoraInicio)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cbxHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(60, 60, 60)
-                                        .addComponent(lblHoraFim)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cbxHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(50, 50, 50)
-                                        .addComponent(lblAssunto)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtAssunto))
-                            .addGroup(pnlHomeLayout.createSequentialGroup()
-                                .addComponent(cldCalendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(pnlHomeLayout.createSequentialGroup()
-                                .addComponent(lblFuncionario)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbxFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
-                                .addComponent(lblSala)
-                                .addGap(47, 47, 47)
-                                .addComponent(cbxSala, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
-                        .addGap(327, 327, 327)
                         .addComponent(btnListarReservas)
-                        .addGap(37, 37, 37)
-                        .addComponent(btnReservar)
-                        .addGap(50, 50, 50))))
+                        .addGap(43, 43, 43)
+                        .addComponent(btnReservar))
+                    .addComponent(txtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlHomeLayout.createSequentialGroup()
+                        .addComponent(jCheckBox1)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblHoraInicio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbxHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(lblHoraFim)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbxHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCampus, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlHomeLayout.createSequentialGroup()
+                        .addComponent(chbEquipamento)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbxEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSala, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxSala, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cldCalendario, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlHomeLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(rdbMoc)
+                        .addGap(77, 77, 77)
+                        .addComponent(rdbJanuaria)))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         pnlHomeLayout.setVerticalGroup(
             pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblHome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblReservas)
+                    .addComponent(lblCalendar))
+                .addGap(15, 15, 15)
                 .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlHomeLayout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(lblCalendar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cldCalendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlHomeLayout.createSequentialGroup()
-                                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblHoraInicio)
-                                    .addComponent(lblHoraFim)
-                                    .addComponent(cbxHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbxHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblAssunto))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(chbEquipamento)
-                                        .addComponent(txtEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(txtAssunto)))
-                    .addGroup(pnlHomeLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(lblHome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblReservas)
+                        .addComponent(lblHorarios)
+                        .addGap(8, 8, 8)
+                        .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblHoraInicio)
+                            .addComponent(cbxHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblHoraFim)
+                            .addComponent(cbxHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrReservas)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlHomeLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnListarReservas)
-                            .addComponent(btnReservar)))
-                    .addGroup(pnlHomeLayout.createSequentialGroup()
-                        .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFuncionario)
-                            .addComponent(jLabel2))
+                        .addComponent(lblCampus)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblHoraInicioHorarios)
-                            .addComponent(lblHoraFimHorarios)
-                            .addComponent(cbxHoraFimHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxHoraInicioHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chbHorarios)))
-                    .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbxFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblSala)
-                        .addComponent(cbxSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                            .addComponent(rdbMoc)
+                            .addComponent(rdbJanuaria))
+                        .addGap(2, 2, 2)
+                        .addComponent(lblEquipamento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chbEquipamento)
+                            .addComponent(cbxEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSala))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addComponent(cbxSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFuncionario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAssunto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnListarReservas)
+                    .addComponent(btnReservar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(pnlHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbxSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSalaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxSalaActionPerformed
+
+    private void txtAssuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAssuntoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAssuntoActionPerformed
 
     private void btnListarReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarReservasActionPerformed
         // TODO add your handling code here:
         new ListarReservas().setVisible(true);
     }//GEN-LAST:event_btnListarReservasActionPerformed
 
-    private void cbxHoraFimHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHoraFimHorariosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxHoraFimHorariosActionPerformed
-
-    private void cbxHoraInicioHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHoraInicioHorariosActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_cbxHoraInicioHorariosActionPerformed
-
-    private void chbHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbHorariosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chbHorariosActionPerformed
-
-    private void txtEquipamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEquipamentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEquipamentoActionPerformed
-
     private void chbEquipamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbEquipamentoActionPerformed
         // TODO add your handling code here:
+        cbxEquipamento.setEnabled(true);
     }//GEN-LAST:event_chbEquipamentoActionPerformed
 
     private void cbxFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFuncionarioActionPerformed
-        /*
-        cbxFuncionario = new javax.swing.JComboBox<>();
-        Object[] objArr = lstFuncionarios.toArray();
-        String[] strFuncionario = Arrays.copyOf(objArr, objArr.length, String[].class);
-        cbxFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(strFuncionario));
-        
-        
-        cbxFuncionario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxFuncionarioActionPerformed(evt);
-            }
-        
-        cbxFuncionario = new javax.swing.JComboBox<>();
-        
-        lstFuncionarios.forEach(funcionario -> {
-            cbxFuncionario.addItem(funcionario);
-        });
-        */
-
-// Code adding the component to the parent container - not shown here
-
+        // Code adding the component to the parent container - not shown here
     }//GEN-LAST:event_cbxFuncionarioActionPerformed
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
         // TODO add your handling code here:
-        Reserva reserva = new Reserva();
-        /*
-        reserva.criarReserva(LocalDate.parse(cldCalendario.getDate().toString()), 
+        Reserva reserva = new Reserva(LocalDate.parse(cldCalendario.getDate().toString()),
                 LocalTime.parse(cbxHoraInicio.getSelectedItem().toString()),
-                LocalTime.MIN,
+                LocalTime.parse(cbxHoraFim.getSelectedItem().toString()),
                 txtAssunto.getText(),
-                cbxSala.getSelectedItem().toString());
+                cbxSala.getItemAt(cbxSala.getSelectedIndex()),
+                cbxEquipamento.getItemAt(cbxEquipamento.getSelectedIndex()));
+        /*
+        reserva.criarReserva(LocalDate.parse(cldCalendario.getDate().toString()),
+            LocalTime.parse(cbxHoraInicio.getSelectedItem().toString()),
+            LocalTime.MIN,
+            txtAssunto.getText(),
+            cbxSala.getSelectedItem().toString());
         */
     }//GEN-LAST:event_btnReservarActionPerformed
 
@@ -431,7 +438,6 @@ public class Home extends javax.swing.JFrame {
         cbxHoraInicio = new javax.swing.JComboBox<>();
 
         cbxHoraInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "07:00", "08:00", "09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", "16:00", "17:00","18:00", "19:00", "20:00", "21:00", "22:00"}));
-
     }//GEN-LAST:event_cbxHoraFimActionPerformed
 
     private void cbxHoraInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHoraInicioActionPerformed
@@ -441,13 +447,22 @@ public class Home extends javax.swing.JFrame {
         cbxHoraInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "06:00", "07:00", "08:00", "09:00","10:00", "11:00", "12:00", "13:00","14:00", "15:00", "16:00", "17:00","18:00", "19:00", "20:00", "21:00"}));
     }//GEN-LAST:event_cbxHoraInicioActionPerformed
 
-    private void txtAssuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAssuntoActionPerformed
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtAssuntoActionPerformed
+        cbxHoraInicio.setEnabled(true);
+        cbxHoraFim.setEnabled(true);
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
-    private void cbxSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSalaActionPerformed
+    private void cldCalendarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cldCalendarioMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbxSalaActionPerformed
+        if (evt.getButton() == MouseEvent.BUTTON1){
+            
+        }
+    }//GEN-LAST:event_cldCalendarioMouseClicked
+
+    private void rdbMocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbMocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbMocActionPerformed
 
     /**
      * @param args the command line arguments
@@ -489,16 +504,30 @@ public class Home extends javax.swing.JFrame {
         Sala sala3 = new Sala(3,30,predioSuperior);
         Sala sala4 = new Sala(4,30,predioSuperior);
         
+        Equipamento eq1 = new Equipamento("Martelo","IFNMG",predioSuperior);
+        Equipamento eq2 = new Equipamento("Controle TV","IFNMG",predioSuperior);
+        Equipamento eq3 = new Equipamento("Chave Fixa","IFNMG",predioSuperior);
+        Equipamento eq4 = new Equipamento("Parafuso","IFNMG",predioSuperior);
+        
+        // Adicionando funcionario
         ifnmg.adicionarFuncionario(f1);
         ifnmg.adicionarFuncionario(f2);
         ifnmg.adicionarFuncionario(f3);
         
+        // Adicionando sala
         ifnmg.adicionarSala(sala1);
         ifnmg.adicionarSala(sala2);
         ifnmg.adicionarSala(sala3);
         ifnmg.adicionarSala(sala4);
         
+        // Adicionando equipamentos
+        predioSuperior.adicionarEquipamento(eq1);
+        predioSuperior.adicionarEquipamento(eq2);
+        predioSuperior.adicionarEquipamento(eq3);
+        predioSuperior.adicionarEquipamento(eq4);
+        
         lstFuncionarios = ifnmg.getFuncionarios();
+        lstEquipamentos = predioSuperior.getEquipamentos();
         lstSalas = ifnmg.getSalas();
         
         /* Create and display the form */
@@ -512,34 +541,36 @@ public class Home extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnListarReservas;
     private javax.swing.JButton btnReservar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<Equipamento> cbxEquipamento;
     private javax.swing.JComboBox<Object> cbxFuncionario;
     private javax.swing.JComboBox<String> cbxHoraFim;
-    private javax.swing.JComboBox<String> cbxHoraFimHorarios;
     private javax.swing.JComboBox<String> cbxHoraInicio;
-    private javax.swing.JComboBox<String> cbxHoraInicioHorarios;
-    private javax.swing.JComboBox<Object> cbxSala;
+    private javax.swing.JComboBox<Sala> cbxSala;
     private javax.swing.JCheckBox chbEquipamento;
-    private javax.swing.JCheckBox chbHorarios;
-    private com.toedter.calendar.JCalendar cldCalendario;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private com.toedter.calendar.JDateChooser cldCalendario;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblAssunto;
     private javax.swing.JLabel lblCalendar;
+    private javax.swing.JLabel lblCampus;
+    private javax.swing.JLabel lblEquipamento;
     private javax.swing.JLabel lblFuncionario;
     private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblHoraFim;
-    private javax.swing.JLabel lblHoraFimHorarios;
     private javax.swing.JLabel lblHoraInicio;
-    private javax.swing.JLabel lblHoraInicioHorarios;
+    private javax.swing.JLabel lblHorarios;
     private javax.swing.JLabel lblReservas;
     private javax.swing.JLabel lblSala;
-    private javax.swing.JList<String> lstReservas;
     private javax.swing.JMenuItem mnuEditar;
     private javax.swing.JMenuItem mnuExcluir;
     private javax.swing.JPanel pnlHome;
-    private javax.swing.JScrollPane scrReservas;
+    private javax.swing.JRadioButton rdbJanuaria;
+    private javax.swing.JRadioButton rdbMoc;
+    private javax.swing.JTable tblHorarios;
     private javax.swing.JTextField txtAssunto;
-    private javax.swing.JTextField txtEquipamento;
     // End of variables declaration//GEN-END:variables
 }

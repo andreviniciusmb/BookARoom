@@ -5,6 +5,8 @@
  */
 package com.mycompany.bookaroom.entity;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Andre Vinicius
@@ -12,10 +14,12 @@ package com.mycompany.bookaroom.entity;
 public class Predio {
     private String nome;
     private Campus campus;
+    private ArrayList<Equipamento> equipamentos;
 
     public Predio(String nome,Campus campus) {
         this.nome = nome;
         this.campus = campus;
+        equipamentos = new ArrayList<>();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
@@ -34,8 +38,21 @@ public class Predio {
     public void setCampus(Campus campus) {
         this.campus = campus;
     }
+
+    public ArrayList<Equipamento> getEquipamentos() {
+        return equipamentos;
+    }
+
+    public void setEquipamentos(ArrayList<Equipamento> equipamentos) {
+        this.equipamentos = equipamentos;
+    }
+    
     //</editor-fold> 
 
+    public void adicionarEquipamento(Equipamento equipamento){
+        equipamentos.add(equipamento);
+    }
+    
     @Override
     public String toString() {
         return "Predio: " + nome;

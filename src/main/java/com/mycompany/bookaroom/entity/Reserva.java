@@ -23,6 +23,15 @@ public class Reserva{
     public Reserva() {
 
     }
+
+    public Reserva(LocalDate dataAlocacao, LocalTime horaInicio, LocalTime horaFim, String assunto, Sala sala, Equipamento equipamento) {
+        this.dataAlocacao = dataAlocacao;
+        this.horaInicio = horaInicio;
+        this.horaFim = horaFim;
+        this.assunto = assunto;
+        this.sala = sala;
+        this.equipamento = equipamento;
+    }
     
     //</editor-fold>
 

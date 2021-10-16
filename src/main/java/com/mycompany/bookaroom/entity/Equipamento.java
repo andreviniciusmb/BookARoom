@@ -49,7 +49,7 @@ public class Equipamento{
 
     @Override
     public String toString() {
-        return "Equipamento: " + nome + ", patrimonio=" + patrimonio
+        return nome + ", patrimonio=" + patrimonio
                 + ", " + predio;
     }
 }

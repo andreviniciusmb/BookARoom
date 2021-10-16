@@ -122,6 +122,8 @@ public class Campus {
     public void adicionarFuncionario(Funcionario funcionario){
         funcionarios.add(funcionario);
     }
+    
+    
 
     @Override
     public String toString() {
